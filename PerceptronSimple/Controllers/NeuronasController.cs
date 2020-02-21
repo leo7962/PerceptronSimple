@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PerceptronSimple.Model;
+using System;
 
 namespace PerceptronSimple.Controllers
 {
@@ -11,14 +8,27 @@ namespace PerceptronSimple.Controllers
     [Route("[controller]")]
     public class NeuronasController : ControllerBase
     {
-        public double simoide (double tetha)
-        {                        
-            return tetha > 0 ? 1 : -1;
-        }   
-                       
-        public double neurona ( double ent1, double ent2, double p1, double p2, double tetha)
+        public double simoide(double tetha)
         {
-            return tetha + ent1 * p1 + ent2 * p2;
+            return tetha > 0 ? 1 : -1;
+        }
+
+        public double neurona(double ent1, double ent2, int i)
+        {
+            Neurona Neurona = new Neurona();
+            double y = Math.Tanh((ent1 * Neurona.W1) + (ent2 * Neurona.W2) - Neurona.tetha);
+            if (i == 1000)
+            {
+
+            }
+            else
+            {
+                
+                i++;
+                //neurona(ent1,ent2,neurona.W1,neurona.W2,neurona.tetha,i);
+
+            }
+            return y;
         }
 
         [HttpGet]
@@ -31,19 +41,34 @@ namespace PerceptronSimple.Controllers
             //var p2 = neurona.W2;
             //var error = neurona.error;
             //var tetha = neurona.tetha;
-            var sw = false;
+            bool sw = false;
             while (!sw)
-            {                
+            {
                 sw = true;
 
-                var p1 = Convert.ToDouble(r.NextDouble() - r.NextDouble());
-                var p2 = Convert.ToDouble(r.NextDouble() - r.NextDouble());
-                var tetha = Convert.ToDouble(r.NextDouble() - r.NextDouble());
+                double p1 = Convert.ToDouble(r.NextDouble() - r.NextDouble());
+                double p2 = Convert.ToDouble(r.NextDouble() - r.NextDouble());
+                double tetha = Convert.ToDouble(r.NextDouble() - r.NextDouble());
 
-                if (simoide(neurona(4.24, 8621.12, p1, p2, tetha)) != 1) sw = false;
-                if (simoide(neurona(4.24, 8621.12, p1, p2, tetha)) != -1) sw = false;
-                if (simoide(neurona(4.24, 8621.12, p1, p2, tetha)) != -1) sw = false;
-                if (simoide(neurona(4.24, 8621.12, p1, p2, tetha)) != -1) sw = false;
+                if (simoide(neurona(4.24, 8621.12,1)) != 1)
+                {
+                    sw = false;
+                }
+
+                if (simoide(neurona(4.24, 8621.12, 1)) != -1)
+                {
+                    sw = false;
+                }
+
+                if (simoide(neurona(4.24, 8621.12, 1)) != -1)
+                {
+                    sw = false;
+                }
+
+                if (simoide(neurona(4.24, 8621.12, 1)) != -1)
+                {
+                    sw = false;
+                }
             }
 
             return evaluacion();
